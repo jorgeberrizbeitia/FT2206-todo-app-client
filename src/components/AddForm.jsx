@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addTodoService } from "../services/todo.services";
 
 function AddForm(props) {
 
@@ -25,7 +26,8 @@ function AddForm(props) {
 
     try {
       
-      await axios.post("http://localhost:5005/api/todos", newTodo)
+      // await axios.post("http://localhost:5005/api/todos", newTodo)
+      await addTodoService(newTodo)
       // ...
       // navigate("/todos")
       props.getTodos()

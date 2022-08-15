@@ -3,6 +3,9 @@ import {useEffect, useState} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import AddForm from "../../components/AddForm"
 
+// service import
+import { getTodosService } from "../../services/todo.services"
+
 function TodoList() {
 
   const navigate = useNavigate()
@@ -17,7 +20,9 @@ function TodoList() {
   const getTodos = async () => {
 
     try {
-      const response = await axios.get("http://localhost:5005/api/todos")
+      // const response = await axios.get("http://localhost:5005/api/todos")
+      // el service reemplaza hacer axios y URL dentro del codigo
+      const response = await getTodosService()
       console.log(response.data)
       setAllTodos(response.data)
       setIsFetching(false)
