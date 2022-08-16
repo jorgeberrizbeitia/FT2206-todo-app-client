@@ -1,10 +1,15 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { signupService } from "../../services/auth.services";
 
 function Signup() {
+
+  const navigate = useNavigate()
 
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("")
 
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handleEmailChange = (e) => setEmail(e.target.value);
@@ -13,6 +18,28 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
     // ... signup logic here
+    const user = {
+      username: username,
+      email: email,
+      password: password
+    }
+
+    try {
+      
+      await signupService(user)
+      navigate("/login")
+
+    } catch (error) {
+      console.log(error.response.status)
+      console.log(error.response.data.errorMessage)
+      if (error.response.status === 400) {
+        // le digo al usuario que debe hacer
+        setErrorMessage(error.response.data.errorMessage)
+      } else {
+        navigate("/error")
+      }
+    }
+
   };
 
   return (
@@ -44,6 +71,8 @@ function Signup() {
           value={password}
           onChange={handlePasswordChange}
         />
+        <br />
+        {errorMessage ? <p>{errorMessage}</p> : null}
         <br />
         <button type="submit">Signup</button>
       </form>
