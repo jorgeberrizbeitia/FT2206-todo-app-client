@@ -29,6 +29,7 @@ function Login() {
       
       const response = await loginService(user)
       console.log(response.data)
+      // eventualmente recibiremos el token y ... ya veremos
 
       const authToken = response.data.authToken
 
@@ -36,7 +37,7 @@ function Login() {
 
       authenticateUser()
 
-      // eventualmente recibiremos el token y ... ya veremos
+      // ! aqui vamos a hacer una redirección a alguna pagina privada
 
     } catch (error) {
       if (error.response.status === 400) {

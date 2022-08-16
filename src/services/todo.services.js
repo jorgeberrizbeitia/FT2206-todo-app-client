@@ -1,9 +1,4 @@
-import axios from "axios";
-
-// services es una forma organizada de tener las llamadas al backend
-const service = axios.create({
-  baseURL: "http://localhost:5005/api"
-})
+import service from "./config.services"
 
 const getTodosService = () => {
   return service.get("/todos")
