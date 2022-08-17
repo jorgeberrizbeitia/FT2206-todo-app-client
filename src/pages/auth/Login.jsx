@@ -37,6 +37,8 @@ function Login() {
 
       authenticateUser()
 
+      navigate("/todos")
+
       // ! aqui vamos a hacer una redirección a alguna pagina privada
 
     } catch (error) {
