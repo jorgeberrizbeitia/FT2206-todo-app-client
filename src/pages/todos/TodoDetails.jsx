@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
+import PaymentIntent from '../../components/PaymentIntent'
 
 import { deleteTodoService, getTodoDetailsService } from "../../services/todo.services"
 
@@ -11,6 +12,7 @@ function TodoDetails() {
 
   const [ singleTodo, setSingleTodo ] = useState(null)
   const [ isFetching, setIsFetching ] = useState(true)
+  const [ userWantsToBuy, setUserWantsToBuy ] = useState(false)
 
   useEffect(() => {
     getSingleTodo()
@@ -40,11 +42,15 @@ function TodoDetails() {
 
   }
 
+  const handleBuy = () => {
+    setUserWantsToBuy(true)
+  }
+
   if (isFetching === true) {
     return <h3>... is Loading</h3>
   }
 
-  const { title, description, isUrgent, _id, image} = singleTodo
+  const { title, description, isUrgent, _id, image, price} = singleTodo
 
   return (
     <div>
@@ -56,9 +62,15 @@ function TodoDetails() {
       <p>Titulo: {title}</p>
       <p>Descripción: {description}</p>
       <p>Es Urgente: {isUrgent === true ? "SIIIII" : "Nah"}</p>
+      <p>Precio: {price}$</p>
 
       <button onClick={handleDelete}>Borrar</button>
       <Link to={`/todos/${_id}/edit`}><button>Editar</button></Link>
+      <br />
+      <br />
+      <button onClick={handleBuy}>Comprar producto</button>
+
+      {userWantsToBuy === true && <PaymentIntent singleTodo={singleTodo}/>}
 
     </div>
   )
