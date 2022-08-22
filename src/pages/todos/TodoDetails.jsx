@@ -44,12 +44,14 @@ function TodoDetails() {
     return <h3>... is Loading</h3>
   }
 
-  const { title, description, isUrgent, _id} = singleTodo
+  const { title, description, isUrgent, _id, image} = singleTodo
 
   return (
     <div>
       
       <h5>Detalles del To-Do</h5>
+
+      <img src={image} alt="image" width={100}/>
 
       <p>Titulo: {title}</p>
       <p>Descripción: {description}</p>

@@ -2,6 +2,7 @@ import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { addTodoService } from "../services/todo.services";
+import { uploadService } from "../services/upload.services";
 
 function AddForm(props) {
 
@@ -10,6 +11,9 @@ function AddForm(props) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [isUrgent, setIsUrgent] = useState(false);
+
+  // estado para guardar el URL que vendrá de cloudinary
+  const [imageUrl, setImageUrl] = useState("")
 
   const handleTitleChange = (event) => setTitle(event.target.value);
   const handleDescriptionChange = (event) => setDescription(event.target.value);
@@ -21,7 +25,8 @@ function AddForm(props) {
     const newTodo = {
       title: title,
       description: description,
-      isUrgent: isUrgent
+      isUrgent: isUrgent,
+      image: imageUrl
     }
 
     try {
@@ -32,6 +37,27 @@ function AddForm(props) {
       // navigate("/todos")
       props.getTodos()
 
+
+    } catch (error) {
+      navigate("/error")
+    }
+
+  }
+
+  const handleImgUpload = async (event) => {
+
+    console.log(event.target.files[0])
+    // enviar la imagen a cloudinary (via service/via backend)
+    // recibir el url y subirlo al estado
+
+    const form = new FormData()
+    form.append("image", event.target.files[0])
+    // "image" tiene que ser el mismo nombre que el uploader.single del backend
+
+    try {
+      
+      const response = await uploadService(form)
+      setImageUrl(response.data.imageUrl)
 
     } catch (error) {
       navigate("/error")
@@ -70,6 +96,13 @@ function AddForm(props) {
         <br />
         <button onClick={handleSubmit}>Agregar</button>
       {/* </form> */}
+
+      <div>
+        <h5>Añade una imagen:</h5>
+        <input type="file" onChange={handleImgUpload}/>
+        <img src={imageUrl} alt="imagen" width={50}/>
+      </div>
+
     </div>
   );
 }
