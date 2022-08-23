@@ -2,7 +2,7 @@ import axios from "axios";
 
 // services es una forma organizada de tener las llamadas al backend
 const service = axios.create({
-  baseURL: "http://localhost:5005/api"
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`
 })
 
 // interceptar la llamada y agregar el token
